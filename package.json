@@ -1,0 +1,17 @@
+{
+  "name": "roll-and-hero",
+  "productName": "Roll & Hero",
+  "version": "1.0.0",
+  "description": "Roll & Hero: a dice-board video game where every space on the board plays one of your videos",
+  "main": "main.js",
+  "author": "Roll & Hero",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "sh scripts/build.sh"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "44.9.3"
+  }
+}

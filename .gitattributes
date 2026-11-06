@@ -1,0 +1,9 @@
+# text files are stored with LF; shell scripts keep LF on every checkout (they run on Linux)
+* text=auto
+*.sh text eol=lf
+
+# never touch these
+*.7z binary
+*.xz binary
+*.png binary
+*.ico binary
