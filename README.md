@@ -4,7 +4,7 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
 
 **[Download the latest release (Windows and Linux)](https://github.com/xurby/roll-and-hero/releases/latest)**
 
-![Roll & Hero in its 8-bit style, with the mountain landscape behind the board](docs/screenshot.png)
+![Roll & Hero in its 8-bit style: the board, the Sources & Display menu and Game settings, with the night landscape behind them](docs/screenshot.png)
 
 ## Features
 
