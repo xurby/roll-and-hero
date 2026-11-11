@@ -40,6 +40,14 @@ The apps are in the [`releases`](releases) folder of this repository (and on the
 
 You can also play without installing anything: open `index.html` in Chrome or Edge. Those browsers can remember your video folders between visits.
 
+### Round packs
+
+Ready-to-play videos for the game:
+
+- **Full game, CG and 3D rounds (setup included):** [MEGA](https://mega.nz/folder/GhBn0TJb#jSIPZ2lrn5DU5f4zkKJzYA)
+- **3D rounds only:** [Pixeldrain](https://pixeldrain.com/l/rcvRLaCy)
+- **CG rounds only:** [Google Drive](https://drive.google.com/file/d/1qX4wRHJTSZjLQu1_0K5euZ1ew-tPVNxD/view?usp=sharing)
+
 ## Getting started
 
 1. Open the **cog** menu and add your video folders under **Videos and characters**. In the desktop app, **Select folders…** opens the Windows folder dialog so you can pick several folders at once (Ctrl or Shift + click), and **Add every folder inside a folder…** adds all the folders inside one (for example a `Rounds` folder). Folders picked this way open again by themselves the next time you start the app.
