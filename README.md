@@ -9,7 +9,11 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
 ## Features
 
 - **Your videos on the board:** numbered folders (`42.mp4` plays on space 42), unnumbered folders sorted by length and/or BPM, and handpicked videos you drag onto exact spaces. Zip files work too.
-- **Special videos:** checkpoint videos (1, 25, 50, 75, 100), invasion clips that cut into a round, side quests, a merchant, and reward videos after you win.
+- **Checkpoint videos:** special videos on spaces 1, 25, 50, 75 and 100.
+- **Invasions:** clips that cut into a round, then the round picks up where it stopped.
+- **Side quests:** optional quest videos on the board. Finish one to win its reward item.
+- **Merchant:** offers 2 cards. Pick one and watch one extra video to get it.
+- **Reward videos:** play after you win.
 - **Cards:** every 25 spaces you pick 1 of 3 items (Fly Swatter, Hand Slipped, Magic Watch, Fast Forward, 9 Sided Dice and more).
 - **Map objects:** ladders, chests, merchants, wells, letters (pick 1 of 3 side quests), altars (survive 4 rounds for any card) and side quests, placed randomly or saved in presets. Hover a space to see its videos and what's on it.
 - **Heroes:** seven knights with their own powers, from Ruiner's one-time "Ruined!" revive to Royal's 7-sided die. Most have to be unlocked by playing.
@@ -17,9 +21,7 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
 - **Your look:** an 8-bit style (or the normal one), board size, and records like Longest Stretch, Marathon and Screen Time.
 - **Colors and backgrounds:** a pixel-art landscape behind the board (meadow, forest, rock and tower sections, a moon and optional snow) colored from your own colors, or your own picture. Darken it, and darken it further while a video plays. Color each board section, the checkpoints, objects, snow, ladders (wooden or rope) and more, with optional opacity sliders. Built-in color presets include Nightfall and Autumn.
 - **Turns and saving:** a wait between rolls with optional auto roll, and come back at your last checkpoint or on the exact space you left.
-- **Invasions that grow:** the invasion chance can rise with every checkpoint you pass and every good roll.
 - **Presets:** save, export and import both menu and game settings, or copy and paste them as text.
-- **First-start tour:** a short tour of what to set up first (can be shown again from the menu).
 
 ## Download
 
