@@ -46,7 +46,7 @@ Ready-to-play videos for the game:
 
 - **Full game, CG and 3D rounds (setup included):** [MEGA](https://mega.nz/folder/GhBn0TJb#jSIPZ2lrn5DU5f4zkKJzYA)
 - **3D rounds only:** [Pixeldrain](https://pixeldrain.com/l/rcvRLaCy)
-- **CG rounds only:** [Google Drive](https://drive.google.com/file/d/1qX4wRHJTSZjLQu1_0K5euZ1ew-tPVNxD/view?usp=sharing)
+- **CG rounds only (setup included):** [Google Drive](https://drive.google.com/file/d/1qX4wRHJTSZjLQu1_0K5euZ1ew-tPVNxD/view?usp=sharing)
 
 ## Getting started
 
