@@ -12,8 +12,12 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
 - **Map objects:** ladders, chests, merchants, wells, letters (pick 1 of 3 side quests), altars (survive 4 rounds for any card) and side quests, placed randomly or saved in presets. Hover a space to see its videos and what's on it.
 - **Heroes:** seven knights with their own powers, from Ruiner's one-time "Ruined!" revive to Royal's 7-sided die. Most have to be unlocked by playing.
 - **Modifiers:** speed-ups, slow-downs, bursts and repeating captions.
-- **Your look:** an 8-bit style (or the normal one), color presets, board size, and records like Longest Stretch, Marathon and Screen Time.
-- **Presets:** save, export and import both menu and game settings.
+- **Your look:** an 8-bit style (or the normal one), board size, and records like Longest Stretch, Marathon and Screen Time.
+- **Colors and backgrounds:** a pixel-art landscape behind the board (meadow, forest, rock and tower sections, a moon and optional snow) colored from your own colors, or your own picture. Darken it, and darken it further while a video plays. Color each board section, the checkpoints, objects, snow, ladders (wooden or rope) and more, with optional opacity sliders. Built-in color presets include Nightfall and Autumn.
+- **Turns and saving:** a wait between rolls with optional auto roll, and come back at your last checkpoint or on the exact space you left.
+- **Invasions that grow:** the invasion chance can rise with every checkpoint you pass and every good roll.
+- **Presets:** save, export and import both menu and game settings, or copy and paste them as text.
+- **First-start tour:** a short tour of what to set up first (can be shown again from the menu).
 
 ## Download
 
@@ -26,7 +30,7 @@ You can also play without installing anything: open `index.html` in Chrome or Ed
 
 ## Getting started
 
-1. Open the **cog** menu and add your video folders under **Videos and characters**.
+1. Open the **cog** menu and add your video folders under **Videos and characters**. In the desktop app, **Select folders…** opens the Windows folder dialog so you can pick several folders at once (Ctrl or Shift + click), and **Add every folder inside a folder…** adds all the folders inside one (for example a `Rounds` folder). Folders picked this way open again by themselves the next time you start the app.
 2. Choose how the game plays in **Game settings**, or load one of its presets.
 3. Press **Roll dice** (or `R`).
 
@@ -34,13 +38,34 @@ Keys: `R` roll · `Z` accept · `X` decline · `1`–`5` items · `Space` I lost
 
 The **How to play** button and the **?** buttons in the menus explain everything else.
 
+## Ready-made packs
+
+You can share the game together with its videos as one folder. Put the app and the video folders in the same folder (or the app one level down), and add a `roll-and-hero-pack.json` next to the app that says which folder is what:
+
+```json
+{
+  "id": "my-pack",
+  "version": 1,
+  "characters": ["Characters"],
+  "numbered": ["Numbered"],
+  "unnumbered": [{ "name": "Rounds", "folders": ["Rounds/Easy", "Rounds/Hard"], "sortBy": "length" }],
+  "checkpoints": ["Checkpoints"],
+  "invasion": ["Invasions"],
+  "merchant": "Merchant",
+  "reward": "Rewards",
+  "sidequests": "Side quests"
+}
+```
+
+Paths are relative to the folder that holds the `.json`, and every entry is optional. `sortBy` is `length`, `bpm` or `mix` (with `mixWeight` from 0 = BPM only to 100 = length only). The first time the app starts from the pack it adds all of these folders by itself; raise `version` to set it up again. A pack keeps its own settings, so it never mixes with another copy of the game on the same PC.
+
 ## Project layout
 
 | Path | What it is |
 |---|---|
 | `index.html` | The whole game: one self-contained page (HTML, CSS and JavaScript, fonts included) |
-| `main.js` | The desktop app's window (Electron) |
-| `preload.js` | Lets the page put the window into fullscreen while a video plays |
+| `main.js` | The desktop app's window (Electron): the folder dialog, reading picked folders by path, and ready-made packs |
+| `preload.js` | Lets the page go fullscreen while a video plays, pick several folders at once, and read them |
 | `assets/` | App icons |
 | `packaging/` | The Linux launcher and the README files that go inside the downloads |
 | `releases/` | The built Windows and Linux apps |
