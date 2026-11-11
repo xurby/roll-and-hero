@@ -23,7 +23,7 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
   - **Wells:** rest 10 seconds, but you might fall to the row below.
   - **Letters:** choose 1 of up to 3 side quests you haven't done this run.
   - **Altars:** play 4 random rounds to pick any card in the game.
-  - **Side quests:** optional quest videos. Finish one to win its reward item.
+  - **Towers:** play one side quest.
 - **Heroes:** seven knights with their own powers, from Ruiner's one-time "Ruined!" revive to Royal's 7-sided die. Most have to be unlocked by playing.
 - **Modifiers:** speed-ups, slow-downs, bursts and repeating captions.
 - **Display settings:** an 8-bit style (or the normal one), board size, and records like Longest Stretch, Marathon and Screen Time. A pixel-art landscape sits behind the board (meadow, forest, rock and tower sections, a moon and optional snow), colored from your own colors, or use your own picture. Darken it, and darken it further while a video plays. Color each board section, the checkpoints, objects, snow, ladders (wooden or rope) and more, with optional opacity sliders. Built-in color presets include Nightfall and Autumn.
