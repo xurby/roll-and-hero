@@ -89,16 +89,6 @@ npm run build      # build releases/RollAndHero-Windows.7z and releases/RollAndH
 
 To make changes to the game itself, edit `index.html`. You can test it straight in a browser, with no build step.
 
-## Putting it on GitHub
-
-In PowerShell, from this folder (with [Git](https://git-scm.com/) and the [GitHub CLI](https://cli.github.com/) installed, signed in with `gh auth login`):
-
-```powershell
-gh repo create roll-and-hero --public --source . --push
-```
-
-That uploads the code and the apps in `releases/`. To also list them on the Releases page, push a version tag (next section).
-
 ## Releases
 
 GitHub Actions builds both apps on every push to `main` and keeps them as a downloadable artifact on the workflow run. To publish a release, push a version tag:
