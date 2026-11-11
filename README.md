@@ -9,12 +9,13 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
 ## Features
 
 - **Your videos on the board:** numbered folders (`42.mp4` plays on space 42), unnumbered folders sorted by length and/or BPM, and handpicked videos you drag onto exact spaces. Zip files work too.
-- **Checkpoint videos:** special videos on spaces 1, 25, 50, 75 and 100.
-- **Invasions:** clips that cut into a round, then the round picks up where it stopped.
-- **Side quests:** optional quest videos on the board. Finish one to win its reward item.
-- **Merchant:** offers 2 cards. Pick one and watch one extra video to get it.
-- **Reward videos:** play after you win.
-- **Cards:** every 25 spaces you pick 1 of 3 items (Fly Swatter, Hand Slipped, Magic Watch, Fast Forward, 9 Sided Dice and more).
+- **Special videos:**
+  - **Checkpoint videos:** special videos on spaces 1, 25, 50, 75 and 100.
+  - **Invasions:** clips that cut into a round, then the round picks up where it stopped.
+  - **Side quests:** optional quest videos on the board. Finish one to win its reward item.
+  - **Merchant:** offers 2 cards. Pick one and watch one extra video to get it.
+  - **Reward videos:** play after you win.
+  - **Cards:** every 25 spaces you pick 1 of 3 items (Fly Swatter, Hand Slipped, Magic Watch, Fast Forward, 9 Sided Dice and more).
 - **Map objects:** ladders, chests, merchants, wells, letters (pick 1 of 3 side quests), altars (survive 4 rounds for any card) and side quests, placed randomly or saved in presets. Hover a space to see its videos and what's on it.
 - **Heroes:** seven knights with their own powers, from Ruiner's one-time "Ruined!" revive to Royal's 7-sided die. Most have to be unlocked by playing.
 - **Modifiers:** speed-ups, slow-downs, bursts and repeating captions.
