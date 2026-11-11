@@ -2,6 +2,8 @@
 
 A dice-board video game. Roll the die, move your knight across 100 spaces, and every space you land on plays one of **your own videos**. Reach space 100 to win the run.
 
+**[⬇ Download the latest release (Windows and Linux)](https://github.com/xurby/roll-and-hero/releases/latest)**
+
 ![Roll & Hero in its 8-bit style](docs/screenshot.png)
 
 ## Features
