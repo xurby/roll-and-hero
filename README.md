@@ -16,7 +16,14 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
   - **Merchant:** offers 2 cards. Pick one and watch one extra video to get it.
   - **Reward videos:** play after you win.
   - **Cards:** every 25 spaces you pick 1 of 3 items (Fly Swatter, Hand Slipped, Magic Watch, Fast Forward, 9 Sided Dice and more).
-- **Map objects:** ladders, chests, merchants, wells, letters (pick 1 of 3 side quests), altars (survive 4 rounds for any card) and side quests, placed randomly or saved in presets. Hover a space to see its videos and what's on it.
+- **Map objects:** placed randomly or saved in presets. Hover a space to see its videos and what's on it.
+  - **Ladders:** climb 1 or 2 rows by watching the videos on the way.
+  - **Chests:** open one for a random card, or an invasion.
+  - **Merchants:** pick 1 of 2 cards and watch one extra video to get it.
+  - **Wells:** rest 10 seconds, but you might fall to the row below.
+  - **Letters:** choose 1 of up to 3 side quests you haven't done this run.
+  - **Altars:** play 4 random rounds to pick any card in the game.
+  - **Side quests:** optional quest videos. Finish one to win its reward item.
 - **Heroes:** seven knights with their own powers, from Ruiner's one-time "Ruined!" revive to Royal's 7-sided die. Most have to be unlocked by playing.
 - **Modifiers:** speed-ups, slow-downs, bursts and repeating captions.
 - **Display settings:** an 8-bit style (or the normal one), board size, and records like Longest Stretch, Marathon and Screen Time. A pixel-art landscape sits behind the board (meadow, forest, rock and tower sections, a moon and optional snow), colored from your own colors, or use your own picture. Darken it, and darken it further while a video plays. Color each board section, the checkpoints, objects, snow, ladders (wooden or rope) and more, with optional opacity sliders. Built-in color presets include Nightfall and Autumn.
