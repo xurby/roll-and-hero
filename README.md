@@ -10,7 +10,7 @@ A dice-board video game. Roll the die, move your knight across 100 spaces, and e
 
 - **Your videos on the board:** numbered folders (`42.mp4` plays on space 42), unnumbered folders sorted by length and/or BPM, and handpicked videos you drag onto exact spaces. Zip files work too.
 - **Special videos:** checkpoint videos (1, 25, 50, 75, 100), invasion clips that cut into a round, side quests, a merchant, and reward videos after you win.
-- **Cards:** every 25 spaces you pick 1 of 3 power-ups (Fly Swatter, Hand Slipped, Magic Watch, Fast Forward, 9 Sided Dice and more).
+- **Cards:** every 25 spaces you pick 1 of 3 items (Fly Swatter, Hand Slipped, Magic Watch, Fast Forward, 9 Sided Dice and more).
 - **Map objects:** ladders, chests, merchants, wells, letters (pick 1 of 3 side quests), altars (survive 4 rounds for any card) and side quests, placed randomly or saved in presets. Hover a space to see its videos and what's on it.
 - **Heroes:** seven knights with their own powers, from Ruiner's one-time "Ruined!" revive to Royal's 7-sided die. Most have to be unlocked by playing.
 - **Modifiers:** speed-ups, slow-downs, bursts and repeating captions.
