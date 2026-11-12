@@ -187,6 +187,17 @@
 
   }
 
+  /* a space behind you that you landed on (not just passed): a darker shade of the Passed spaces color */
+  .tile.visited.landed:not(.current):not(.skippable) { background: color-mix(in srgb, var(--tile-passed, #4645456b) 70%, #000); color: var(--tile-passed-ink, #bdbdbd); }
+  /* a space you landed on this run: a little pixel flag in its top-left corner */
+  .land-flag { position: absolute; top: 3%; left: 4%; width: 34%; height: 34%; pointer-events: none; z-index: 1; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.7)); animation: flag-plant 0.35s steps(3); }
+  .land-flag svg { display: block; width: 100%; height: 100%; }
+  .land-flag .lf-pole { fill: #e8dcc0; }
+  .land-flag .lf-cloth { fill: var(--flag-color, #d8433b); }
+  .land-flag .lf-base { fill: #3b2c1e; }
+  @keyframes flag-plant { from { transform: translateY(-40%); opacity: 0; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .land-flag { animation: none; } }
+
   .tile.skippable {
     background: var(--tile-checkpoint, #b6b6b6);
     color: var(--tile-checkpoint-ink, #1a1a1a);
@@ -1531,6 +1542,16 @@
   /* video title sits in the top border of the video player */
   .video-title-bar { display: flex; justify-content: flex-start; margin-bottom: 5px; min-width: 0; }
   .video-title-bar .now-playing { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; max-width: 100%; font-size: 13px; line-height: 16px; }
+  /* Favorite heart: outline when off, filled red when the video is a favorite */
+  .video-title-bar { align-items: center; gap: 8px; }
+  .fav-heart-btn { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 22px; margin-left: auto; padding: 0; border: none; border-radius: 6px; background: transparent; color: var(--accent-ink, #f5f5f5); cursor: pointer; opacity: 0.75; }
+  .fav-heart-btn[hidden] { display: none; }
+  .fav-heart-btn:hover { opacity: 1; background: rgba(255,255,255,0.1); }
+  .fav-heart-btn svg path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+  .fav-heart-btn.on { opacity: 1; color: #ff4d6d; }
+  .fav-heart-btn.on svg path { fill: currentColor; }
+  .fav-heart-btn.pop svg { animation: fav-pop 0.3s ease-out; }
+  @keyframes fav-pop { 50% { transform: scale(1.35); } }
   .video-footer-items { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
   /* item buttons over the video while it's fullscreen */
   .video-footer-items.fs-items {
@@ -3838,7 +3859,7 @@
   html.pixel .quest-card { box-shadow: 0 -4px 0 0 #000, 0 4px 0 0 #000, -4px 0 0 0 #000, 4px 0 0 0 #000, inset 0 0 0 4px var(--pop-accent, #e6b422) !important; }
 
   /* buttons: 2px outline, 2px bevel, press down 2px */
-  html.pixel button:not(.tile):not(.die):not(.pu-card):not(.quest-pick-row):not(.fav-clear):not(.menu-close):not(.video-volume-icon):not(.records-reset):not(.qs-go),
+  html.pixel button:not(.tile):not(.die):not(.pu-card):not(.quest-pick-row):not(.fav-clear):not(.menu-close):not(.video-volume-icon):not(.records-reset):not(.qs-go):not(.fav-heart-btn),
   html.pixel .add-folder-btn, html.pixel .reconnect-btn {
     border: 2px solid #000 !important;
     box-shadow: inset -2px -2px 0 rgba(0,0,0,0.38), inset 2px 2px 0 rgba(255,255,255,0.22) !important;
@@ -4034,6 +4055,7 @@
   .tile-tip li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile-tip li + li { margin-top: 2px; }
   .tile-tip li.tt-watched { opacity: 0.4; } /* already watched: darker text */
+  .tile-tip .tt-fav, .sv-row .sv-fav { color: #ff4d6d; margin-right: 5px; }
   .tile-tip .tt-folder { opacity: 0.6; font-size: 11px; margin-left: 6px; }
   .tile-tip .tt-more, .tile-tip .tt-empty { opacity: 0.7; font-style: italic; margin-top: 4px; }
   html.pixel .tile-tip { border-radius: 0 !important; border-width: 4px; box-shadow: 8px 8px 0 rgba(0,0,0,0.4) !important; font-size: 16px; line-height: 1.2; }
@@ -4919,7 +4941,7 @@
         <p class="quick-group-title">Checkpoints &amp; saving</p>
         <div class="quick-grid">
           <label class="toggle" title="When you come back to the app, you restart from the last checkpoint you passed (1, 25, 50 or 75)."><input type="checkbox" data-qs="checkpointEnabledInput"><span>Save at checkpoints</span></label>
-          <label class="toggle" title="When you come back to the app, you restart on the exact space you left."><input type="checkbox" data-qs="saveAllProgressEnabledInput"><span>Save every roll</span></label>
+          <label class="toggle" title="When you come back to the app, you restart on the exact space you left. After a loss, the next run starts on the space you lost on (cards and side quests still reset)."><input type="checkbox" data-qs="saveAllProgressEnabledInput"><span>Save every roll</span></label>
           <label class="toggle" title="When a roll carries you past a checkpoint (1, 25, 50 or 75), its checkpoint video plays first."><input type="checkbox" data-qs="checkpointPassEnabledInput"><span>Play checkpoint videos you pass</span></label>
         </div>
       </div>
@@ -4977,7 +4999,7 @@
             <input type="checkbox" id="checkpointEnabledInput" checked>
             <span>Save at checkpoints <em class="gp-note">back to the last 1, 25, 50 or 75</em></span>
           </label>
-          <label class="toggle" title="When you come back, you restart on the exact space you left">
+          <label class="toggle" title="When you come back, you restart on the exact space you left. After a loss, the next run starts on the space you lost on (cards and side quests still reset)">
             <input type="checkbox" id="saveAllProgressEnabledInput">
             <span>Save every roll <em class="gp-note">back to the space you left</em></span>
           </label>
@@ -5471,6 +5493,9 @@
   <div class="video-panel" id="videoPanel">
     <div class="video-title-bar">
       <span class="now-playing" id="nowPlayingLabel">Now playing — video 1</span>
+      <button type="button" class="fav-heart-btn" id="favHeartBtn" hidden aria-pressed="false" title="Add to favorites: shown first when you hover its space (shortcut: H)">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.5 7.8 3.6 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.5 3.3 4.3 6.6-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg>
+      </button>
     </div>
     <div class="video-frame" id="videoFrame">
       <video id="video" playsinline></video>
@@ -8968,6 +8993,52 @@
     });
   });
 
+  // ---- Landed flags: a little pixel flag on every space you landed on this run ----
+  // (cleared when a new run starts: a loss or a win; kept when you close the app mid-run)
+  let landedSpaces = new Set();
+  let landedThisRound = []; // flagged during this roll (Hand Slipped takes them back)
+  const LAND_FLAG_SVG = '<svg viewBox="0 0 8 8" shape-rendering="crispEdges">' +
+    '<rect class="lf-pole" x="1" y="0" width="1" height="8"/>' +
+    '<rect class="lf-cloth" x="2" y="0" width="4" height="1"/><rect class="lf-cloth" x="2" y="1" width="5" height="1"/>' +
+    '<rect class="lf-cloth" x="2" y="2" width="4" height="1"/><rect class="lf-cloth" x="2" y="3" width="2" height="1"/>' +
+    '<rect class="lf-base" x="0" y="7" width="3" height="1"/></svg>';
+  function drawLandedFlags() {
+    Object.keys(tileEls).forEach(k => {
+      const el = tileEls[k];
+      const want = landedSpaces.has(Number(k));
+      el.classList.toggle('landed', want);
+      let f = el.querySelector('.land-flag');
+      if (want && !f) {
+        f = document.createElement('span');
+        f.className = 'land-flag';
+        f.setAttribute('aria-hidden', 'true');
+        f.innerHTML = LAND_FLAG_SVG;
+        el.appendChild(f);
+      } else if (!want && f) f.remove();
+    });
+  }
+  function saveLandedSpaces() { saveSetting('landed-spaces', JSON.stringify(Array.from(landedSpaces))); }
+  function markLanded(n) {
+    if (!(n >= 1 && n < 100) || landedSpaces.has(n)) return; // not Start or the finish
+    landedSpaces.add(n);
+    landedThisRound.push(n);
+    saveLandedSpaces();
+    drawLandedFlags();
+  }
+  function clearLandedSpaces() {
+    landedSpaces.clear();
+    landedThisRound = [];
+    saveLandedSpaces();
+    drawLandedFlags();
+  }
+  function undoLandedRound() {
+    if (!landedThisRound.length) return;
+    landedThisRound.forEach(n => landedSpaces.delete(n));
+    landedThisRound = [];
+    saveLandedSpaces();
+    drawLandedFlags();
+  }
+
 
   // ---- Hover a space: show the videos assigned to it ----
   const tileTip = document.createElement('div');
@@ -8982,7 +9053,7 @@
     try {
       if (n === 100) out.push('Finish');
       else if (isCheckpointSpace(n)) out.push('Checkpoint');
-      ladders.forEach(l => { if (l.bottom === n) out.push('Ladder up'); else if (l.top === n) out.push('Ladder top'); });
+      if (laddersEnabled) ladders.forEach(l => { if (ladderPassed(l)) return; if (l.bottom === n) out.push('Ladder up'); else if (l.top === n) out.push('Ladder top'); });
       if (el.classList.contains('quest')) out.push(el.classList.contains('quest-done') ? 'Side quest (done)' : 'Side quest');
       if (el.classList.contains('chest')) out.push('Chest');
       if (el.classList.contains('merchant')) out.push('Merchant');
@@ -8994,7 +9065,7 @@
   }
   function showTileTip(el) {
     const n = Number(el.dataset.n);
-    const entries = (spaceLib(n) || []);
+    const entries = favoritesFirst(spaceLib(n) || []); // your favorites at the top
     const seen = entries.filter(en => isWatched(en.file)).length;
     tileTip.innerHTML = '';
     const head = document.createElement('div');
@@ -9018,6 +9089,7 @@
         const w = isWatched(en.file);
         li.className = w ? 'tt-watched' : '';
         if (w) li.title = 'Watched';
+        if (isFavorite(en.file)) { const h = document.createElement('span'); h.className = 'tt-fav'; h.textContent = '♥'; h.setAttribute('aria-label', 'Favorite'); li.appendChild(h); }
         li.appendChild(document.createTextNode(name.replace(/\.(mp4|webm|ogg|ogv|mov|m4v)$/i, '')));
         if (en.folderName) {
           const f = document.createElement('span');
@@ -9234,6 +9306,7 @@
     root.setProperty('--well-color', withAlpha(colorSettings.well, 'colorWell'));
     root.setProperty('--letter-color', withAlpha(colorSettings.letter || '#b6b6b6', 'colorLetter'));
     root.setProperty('--altar-color', withAlpha(colorSettings.altar || '#b39ddb', 'colorAltar'));
+    root.setProperty('--obj-passed', colorSettings.passed || '#464545'); // map icons behind you (solid, so they stay readable)
     if (colorSettings.passed) {
       root.setProperty('--tile-passed', withAlpha(colorSettings.passed, 'colorPassed'));
       root.setProperty('--tile-passed-ink', inkFor(colorSettings.passed) === '#1a1a1a' ? '#333' : '#bdbdbd');
@@ -9246,6 +9319,7 @@
     root.setProperty('--felt-top', withAlpha('#313131', 'colorPanel')); // the board's gradient top (--felt) at the same opacity
     root.setProperty('--ivory', withAlpha(colorSettings.text, 'colorText'));
     root.setProperty('--blue', withAlpha(colorSettings.accent, 'colorAccent'));
+    root.setProperty('--flag-color', colorSettings.accent); // landed flags (solid, so the small pixel flag stays crisp)
     root.setProperty('--record-color', withAlpha(colorSettings.record || '#e6b422', 'colorRecord'));
     setPopupAccent(root, colorSettings.accent); // How to play and other popups
     root.setProperty('--accent-ink', inkFor(colorSettings.accent));
@@ -10179,7 +10253,7 @@
   // Mountain and Classic are added the first time; after that they're ordinary presets you can change or delete
   let colorPresets = JSON.parse(JSON.stringify(BUILTIN_COLOR_PRESETS));
   let colorPresetCurrent = 'Default';  // the preset you last loaded or saved
-  function saveColorPresets() { saveSetting('color-presets', JSON.stringify({ presets: colorPresets, current: colorPresetCurrent, classicV: 2, defaultV: 2, sectionsV: 1, nightfallV: 1, autumnV: 1 })); }
+  function saveColorPresets() { saveSetting('color-presets', JSON.stringify({ presets: colorPresets, current: colorPresetCurrent, classicV: 2, defaultV: 3, sectionsV: 1, nightfallV: 1, autumnV: 1 })); }
   function loadColorPreset(name) {
     const p = colorPresets[name];
     if (!p) return;
@@ -10258,6 +10332,11 @@
           if ((o.defaultV || 0) < 2 && colorPresets.Default && colorPresets.Default.quest === '#a5183b') {
             colorPresets.Default.quest = BUILTIN_COLOR_PRESETS.Default.quest;
             questColorFix.preset = true; fixOldDefaultQuest();
+            saveColorPresets();
+          }
+          // v3: the Default color preset goes back to the app's own default colors, once
+          if ((o.defaultV || 0) < 3) {
+            colorPresets.Default = JSON.parse(JSON.stringify(BUILTIN_COLOR_PRESETS.Default));
             saveColorPresets();
           }
         }
@@ -10541,6 +10620,8 @@
       tileEls[position].classList.add('current');
       tileEls[position].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
+    drawLandedFlags();
+    try { redrawBoardLayersSoon(); } catch (e) { /* at startup */ } // ladders behind you go, map icons behind you turn grey
     loseBtn.classList.toggle('is-hidden', position === 0);
     applyFeltForPosition(position);
     try { applySectionBackground(); } catch (e) { /* not set up yet */ } // the background for this part of the board
@@ -10567,6 +10648,37 @@
   }
   (async () => {
     try { const v = await loadSetting('watched-videos'); if (v) { const a = JSON.parse(v); if (Array.isArray(a)) watchedVideos = new Set(a); } } catch (e) { /* none yet */ }
+  })();
+
+  // ---- Favorite videos: the heart on the video panel. Favorites are listed first
+  // when you hover (or click) their space. Same key as watched: file name + size ----
+  let favoriteVideos = new Set();
+  let favTargetFile = null; // the space video playing now (the heart is hidden for other videos)
+  const favHeartBtn = document.getElementById('favHeartBtn');
+  function isFavorite(file) { return !!file && favoriteVideos.has(watchKey(file)); }
+  function favoritesFirst(entries) { return entries.slice().sort((a, b) => isFavorite(b.file) - isFavorite(a.file)); }
+  function updateFavHeart() {
+    favHeartBtn.hidden = !favTargetFile;
+    const on = isFavorite(favTargetFile);
+    favHeartBtn.classList.toggle('on', on);
+    favHeartBtn.setAttribute('aria-pressed', String(on));
+    favHeartBtn.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
+  }
+  function setFavTarget(file) { favTargetFile = file || null; updateFavHeart(); }
+  function toggleFavorite() {
+    if (!favTargetFile) return;
+    const k = watchKey(favTargetFile);
+    const on = !favoriteVideos.has(k);
+    if (on) favoriteVideos.add(k); else favoriteVideos.delete(k);
+    saveSetting('favorite-videos', JSON.stringify(Array.from(favoriteVideos)));
+    updateFavHeart();
+    favHeartBtn.classList.remove('pop'); void favHeartBtn.offsetWidth; if (on) favHeartBtn.classList.add('pop');
+    showPuToast(on ? 'Added to favorites' : 'Removed from favorites');
+  }
+  favHeartBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleFavorite(); favHeartBtn.blur(); });
+  (async () => {
+    try { const v = await loadSetting('favorite-videos'); if (v) { const a = JSON.parse(v); if (Array.isArray(a)) favoriteVideos = new Set(a); } } catch (e) { /* none yet */ }
+    updateFavHeart();
   })();
 
   // ---- Don't repeat last run's videos: a video from the previous run is skipped
@@ -10604,6 +10716,7 @@
 
   function showVideoFor(n) {
     turnVideos++; // Second Wind: each video in this turn
+    if (n === position) markLanded(n); // your own space (not Chopsticks or a checkpoint you passed)
     let candidates = spaceLib(n);
     if (candidates && candidates.length && !isCheckpointSpace(n)) candidates = withoutLastRun(candidates);
     if (currentObjectUrl) {
@@ -10635,6 +10748,7 @@
 
     currentMainFile = file;
     currentMainLabel = label;
+    setFavTarget(file);
     markWatched(file);
     if (!isCheckpointSpace(n)) noteRunVideo(file);
     isPlayingMainVideo = !isCheckpointSpace(n);
@@ -10674,6 +10788,7 @@
     }
     hideSubtitleCard();
     nowPlayingLabel.textContent = 'Invasion — ' + invasionFile.name;
+    setFavTarget(null);
     currentObjectUrl = URL.createObjectURL(invasionFile);
     videoEl.src = currentObjectUrl;
     levelNewVideo(invasionFile);
@@ -10694,6 +10809,7 @@
     videoFallback.classList.remove('show');
     videoEl.style.display = 'block';
     nowPlayingLabel.textContent = 'Intro — ' + introLabel + modifierLabel();
+    setFavTarget(null);
     currentObjectUrl = URL.createObjectURL(introFile);
     videoEl.src = currentObjectUrl;
     levelNewVideo(introFile);
@@ -12057,6 +12173,7 @@
   }
 
   function showFallback(n) {
+    setFavTarget(null);
     videoEl.style.display = 'none';
     fallbackHeadline.textContent = folders.length
       ? 'No video assigned to space ' + n + ' yet.'
@@ -12638,6 +12755,7 @@
       nowPlayingLabel.textContent = r.label;
       currentObjectUrl = URL.createObjectURL(r.file);
       videoEl.src = currentObjectUrl;
+      setFavTarget(r.file); // back to the space video after an invasion
       levelNewVideo(r.file);
       videoEl.playbackRate = activeModifierRate;
       isPlayingMainVideo = true;
@@ -12700,6 +12818,7 @@
     liveRegion.textContent = 'You win! Space 100 reached. Restarting from the beginning.';
     position = 0;
     posValueEl.textContent = 'Start';
+    clearLandedSpaces(); // a new run: no flags yet
     updateBoardHighlight();
     saveCheckpointProgress(); // sync the fresh start as the new checkpoint too
     saveExactProgress();
@@ -13366,6 +13485,7 @@
     if (wantsStartQuestPick()) { openStartQuestPicker(); return; }
     waitingForRoll = false;
     busy = true;
+    landedThisRound = [];
     recordRoll();
     rollBtn.disabled = true;
     rollBtn.textContent = 'Rolling…';
@@ -14503,6 +14623,7 @@
     videoFallback.classList.remove('show');
     videoEl.style.display = 'block';
     nowPlayingLabel.textContent = 'Side quest — ' + q.title;
+    setFavTarget(null);
     currentObjectUrl = URL.createObjectURL(q.video);
     videoEl.src = currentObjectUrl;
     levelNewVideo(q.video);
@@ -14604,11 +14725,15 @@
   }
   function onNewRunLadders() { if (ladderEachRun && !mapLocked) newLadders(); }
 
+  // a space behind you on this run (the one you stand on doesn't count)
+  function spacePassed(n) { const el = tileEls[n]; return !!el && el.classList.contains('visited') && !el.classList.contains('current'); }
+  // a ladder whose bottom you've gone past (climbed or walked by) is removed from the board
+  function ladderPassed(l) { return spacePassed(l.bottom); }
   function drawLadders() {
     ladderLayer.innerHTML = '';
     boardEl.querySelectorAll('.tile.ladder-end').forEach(el => el.classList.remove('ladder-end'));
     if (!laddersEnabled) return;
-    ladders.forEach(l => [l.bottom, l.top].forEach(n => { if (tileEls[n]) tileEls[n].classList.add('ladder-end'); }));
+    ladders.forEach(l => { if (!ladderPassed(l)) [l.bottom, l.top].forEach(n => { if (tileEls[n]) tileEls[n].classList.add('ladder-end'); }); });
     // Rope ladders: twisted rope sides, wooden slats tied on with knots, frayed ends at the top.
     // Colored from the Ladders swatch (lighter and darker shades of it). In 8-bit mode everything
     // snaps to the 2px grid and the knots are square.
@@ -14632,6 +14757,7 @@
     const rect = (x, y, w, h, fill, extra = '') => add('rect', { x: snap(x), y: snap(y), width: Math.max(1, snap(w)), height: Math.max(1, snap(h)) }, 'fill:' + fill + ';stroke:none;' + extra);
     const line = (x1, y1, x2, y2, style) => add('line', { x1, y1, x2, y2 }, style);
     ladders.forEach(l => {
+      if (ladderPassed(l)) return; // behind you: taken off the board
       const b = tileEls[l.bottom], t = tileEls[l.top];
       if (!b || !t || !b.offsetWidth) return;
       const w = b.offsetWidth, h = b.offsetHeight;
@@ -15013,10 +15139,12 @@
       '<rect x="10.8" y="10.5" width="2.4" height="3.2" rx="1.2" fill="' + t.O + '"/>' +
       '<path d="M10 21v-3.3a2 2 0 0 1 4 0V21" fill="' + t.D + '" stroke="' + t.O + '" stroke-width="1"/>'
   };
-  function markerIcon(kind, size, pixel) {
+  function markerIcon(kind, size, pixel, passed) {
     const NS = 'http://www.w3.org/2000/svg';
     const shape = kind === 'questDone' ? 'quest' : kind;
-    const t = markerTones(MARKER_VAR[kind]);
+    // behind you: drawn in the Passed spaces color (flames and locks too)
+    const t = markerTones(passed ? '--obj-passed' : MARKER_VAR[kind]);
+    const gold = passed ? { F: t.L, G: t.B } : FLAME;
     const svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('class', 'marker-icon' + (shape === 'quest' ? ' right' : ''));
     svg.setAttribute('width', size); svg.setAttribute('height', size);
@@ -15028,12 +15156,14 @@
       svg.setAttribute('shape-rendering', 'crispEdges');
       let out = '';
       MARKER_SPRITES[shape].forEach((row, y) => [...row].forEach((ch, x) => {
-        if (ch !== '.') out += '<rect x="' + x + '" y="' + y + '" width="1" height="1" style="fill:' + (FLAME[ch] || t[ch]) + '"/>';
+        if (ch !== '.') out += '<rect x="' + x + '" y="' + y + '" width="1" height="1" style="fill:' + (gold[ch] || t[ch]) + '"/>';
       }));
       svg.innerHTML = out;
     } else {
       svg.setAttribute('viewBox', '0 0 24 24');
-      svg.innerHTML = MARKER_DRAWINGS[shape](t);
+      let art = MARKER_DRAWINGS[shape](t);
+      if (passed) art = art.split('#ffd66b').join(t.L).split('#7a4a00').join(t.O); // the altar's candle flames
+      svg.innerHTML = art;
     }
     return svg;
   }
@@ -15052,18 +15182,18 @@
       if (!kinds.length) return;
       const w = el.offsetWidth;
       if (!w) return;
-      const box = { left: el.offsetLeft, top: el.offsetTop, width: w, height: el.offsetHeight };
+      const box = { left: el.offsetLeft, top: el.offsetTop, width: w, height: el.offsetHeight, passed: spacePassed(Number(el.dataset.n)) };
       kinds.forEach(kind => marks.push([kind, box]));
     });
     const frag = document.createDocumentFragment();
     marks.forEach(([kind, b]) => {
       const m = document.createElement('div');
-      m.className = 'map-marker drawn ' + (kind === 'questDone' ? 'quest done' : kind);
+      m.className = 'map-marker drawn ' + (kind === 'questDone' ? 'quest done' : kind) + (b.passed ? ' passed' : '');
       m.style.left = (pixel ? Math.round(b.left) : b.left) + 'px';
       m.style.top = (pixel ? Math.round(b.top) : b.top) + 'px';
       m.style.width = b.width + 'px';
       m.style.height = b.height + 'px';
-      m.appendChild(markerIcon(kind, Math.round(b.width * 0.46), pixel));
+      m.appendChild(markerIcon(kind, Math.round(b.width * 0.46), pixel, b.passed));
       frag.appendChild(m);
     });
     layer.appendChild(frag);
@@ -15221,6 +15351,7 @@
     videoFallback.classList.remove('show');
     videoEl.style.display = 'block';
     nowPlayingLabel.textContent = 'Chest trap — ' + file.name;
+    setFavTarget(null);
     currentObjectUrl = URL.createObjectURL(file);
     videoEl.src = currentObjectUrl;
     levelNewVideo(file);
@@ -15481,6 +15612,7 @@
     videoFallback.classList.remove('show');
     videoEl.style.display = 'block';
     nowPlayingLabel.textContent = 'Reward — ' + file.name;
+    setFavTarget(null);
     currentObjectUrl = URL.createObjectURL(file);
     videoEl.src = currentObjectUrl;
     levelNewVideo(file);
@@ -15600,6 +15732,7 @@
     videoFallback.classList.remove('show');
     videoEl.style.display = 'block';
     nowPlayingLabel.textContent = 'Merchant — ' + file.name + ' (for ' + POWERUPS[k].name + ')';
+    setFavTarget(null);
     currentObjectUrl = URL.createObjectURL(file);
     videoEl.src = currentObjectUrl;
     levelNewVideo(file);
@@ -16876,6 +17009,15 @@
         } catch (e) { /* none in use */ }
         saveSetting('menu-presets-seeded', JSON.stringify({ v: 13 }));
       }
+      // v14: the Default menu preset's colors go back to the app's own default colors
+      // (only its colors: its sound, display settings and folders stay as you saved them)
+      if (seeded && seededV < 14) {
+        if (presets['Default']) presets['Default'].colors = JSON.parse(JSON.stringify(DEFAULT_MENU_PRESETS.Default.colors));
+        else presets['Default'] = JSON.parse(JSON.stringify(DEFAULT_MENU_PRESETS.Default));
+        await savePresetsToStorage();
+        renderPresetOptions();
+        saveSetting('menu-presets-seeded', JSON.stringify({ v: 14 }));
+      }
       if (!seeded) {
         const firstStart = !(await loadSetting('color-settings')) && !(await loadSetting('sound-settings'));
         Object.keys(DEFAULT_MENU_PRESETS).forEach(n => { if (!presets[n]) presets[n] = JSON.parse(JSON.stringify(DEFAULT_MENU_PRESETS[n])); });
@@ -16883,7 +17025,7 @@
         await savePresetsToStorage();
         saveFavPresets();
         renderPresetOptions();
-        saveSetting('menu-presets-seeded', JSON.stringify({ v: 13 }));
+        saveSetting('menu-presets-seeded', JSON.stringify({ v: 14 }));
         if (firstStart) { // a brand new player: start with the Default menu
           applyMenuPreset(DEFAULT_MENU_PRESETS.Default);
           saveSetting('current-preset', JSON.stringify({ name: 'Default' }));
@@ -17875,17 +18017,23 @@
     // tilted: losing takes the die away, so the checkpoints go back to normal and you go to
     // the normal checkpoint at the same step (space 53, step 25 of the turned route -> space 25)
     const wasTilted = tiltOn();
-    const target = checkpointEnabled ? (wasTilted ? stepOf(lastCheckpoint) : lastCheckpoint) : 0;
+    // Save every roll: the next run starts on the space you lost on (cards and side quests still reset)
+    const stayHere = saveAllProgressEnabled && position > 0 && position < 100;
+    const target = stayHere ? (wasTilted ? stepOf(position) : position)
+      : checkpointEnabled ? (wasTilted ? stepOf(lastCheckpoint) : lastCheckpoint) : 0;
     position = target;
     posValueEl.textContent = target > 0 ? String(target) : 'Start';
+    clearLandedSpaces(); // a new run: no flags yet
     updateBoardHighlight();
     saveExactProgress();
-    if (powerupsEnabled) resetRun(target);
-    if (wasTilted) { saveCheckpointProgress(); updateBoardHighlight(); } // remember the normal checkpoint; redraw the board untilted
+    if (powerupsEnabled) resetRun(Math.floor(target / 25) * 25); // card draws pick up at the next 25
+    if (wasTilted || stayHere) { saveCheckpointProgress(); updateBoardHighlight(); } // remember the normal checkpoint; redraw the board untilted
     resetQuestRun();
-    liveRegion.textContent = target > 0
-      ? 'Reset back to checkpoint at space ' + target + '. Power-ups lost.'
-      : 'Reset back to the start. Power-ups lost.';
+    liveRegion.textContent = stayHere
+      ? 'New run from space ' + target + '. Power-ups lost.'
+      : target > 0
+        ? 'Reset back to checkpoint at space ' + target + '. Power-ups lost.'
+        : 'Reset back to the start. Power-ups lost.';
   });
 
   // ---- Keyboard: R roll · Z accept · X decline · 1–5 items ----
@@ -17938,6 +18086,11 @@
     if (key === 'r') {
       if (questOpen || draftOpenNow || choiceOpen) return;
       press(rollBtn);
+    }
+    if (key === 'h' && favTargetFile && videoPanel.classList.contains('open') && !questOpen && !draftOpenNow && !choiceOpen) {
+      e.preventDefault();
+      toggleFavorite(); // the heart on the video panel
+      return;
     }
     if (key === 's' && devMode && videoPanel.classList.contains('open') && !questOpen && !draftOpenNow && !choiceOpen) {
       e.preventDefault();
@@ -19145,6 +19298,7 @@
     abortCurrentVideo();
     position = lastRollStart;
     posValueEl.textContent = position > 0 ? String(position) : 'Start';
+    undoLandedRound(); // the undone landing loses its flag
     updateBoardHighlight();
     saveCheckpointProgress();
     saveExactProgress();
@@ -19503,8 +19657,12 @@
     // one row per video: folder on the left, then the video (folders in the order added, names in number order)
     const nameOf = en => (en.file && en.file.name) || en.name || '';
     list.style.setProperty('--sv-fw', (Math.max(4, ...Array.from(groups.keys()).map(f => f.length)) + 1.5) + 'ch'); // as wide as the longest folder name
+    // favorites first (still in folder, then number order), then everything else
+    const rows = [];
     groups.forEach((items, folder) => {
-      items.slice().sort((x, y) => nameOf(x).localeCompare(nameOf(y), undefined, { numeric: true })).forEach(en => {
+      items.slice().sort((x, y) => nameOf(x).localeCompare(nameOf(y), undefined, { numeric: true })).forEach(en => rows.push({ en, folder }));
+    });
+    favoritesFirst(rows.map(r => Object.assign({ file: r.en.file }, r))).forEach(({ en, folder }) => {
         const row = document.createElement('div');
         const w = isWatched(en.file);
         row.className = 'sv-row' + (w ? ' watched' : '');
@@ -19515,10 +19673,10 @@
         const name = document.createElement('span');
         name.className = 'sv-name';
         name.textContent = nameOf(en) || 'video';
+        if (isFavorite(en.file)) { const h = document.createElement('span'); h.className = 'sv-fav'; h.textContent = '♥'; h.title = 'Favorite'; name.prepend(h); }
         row.append(f, name);
         if (w) { const t = document.createElement('span'); t.className = 'sv-tag'; t.textContent = 'watched'; row.appendChild(t); }
         list.appendChild(row);
-      });
     });
     if (!entries.length) { const e = document.createElement('p'); e.className = 'sv-empty'; e.textContent = 'Add folders in the cog menu → Videos.'; list.appendChild(e); }
     spaceVideosLayer.classList.add('open');
@@ -19743,6 +19901,13 @@
       const v = await loadSetting('sidequest-run');
       if (v && position > 0) setQuestRun(JSON.parse(v));
     } catch (e) { /* fresh */ }
+    try {
+      // the flags of the run you're resuming (starting from Start is a new run: none)
+      const v = await loadSetting('landed-spaces');
+      if (v && position > 0) { const a = JSON.parse(v); if (Array.isArray(a)) landedSpaces = new Set(a.filter(n => Number.isInteger(n) && n >= 1 && n < 100)); }
+      else if (v) clearLandedSpaces();
+    } catch (e) { /* none yet */ }
+    drawLandedFlags();
     questRunLoaded = true;
     renderSidequestList();
     renderPowerups();
